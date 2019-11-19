@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import refreshIcon from './refresh-24px.svg';
+//import refreshIcon from './refresh-24px.svg';
 const config = require('./config');
 
 class App extends React.Component {
