@@ -23,7 +23,7 @@ router.get('/', (req, res, next) => {
                 userIds.push(user._id.slice(5));
             });
             res.status(200).json({
-                identifiers: userIds,
+                result: userIds,
             });
             console.log("IDs of all users returned.")
         });
@@ -33,13 +33,12 @@ router.get('/:userId', (req, res, next) => {
     // retrieve API-parameter
     const userId = req.params.userId;
 
-    //respond
-    res.status(200).json({
-        message: 'one user'
+    this.database.collection('users').find({ _id: "user:" + userId.toString() }).toArray(function(err, result) {
+        res.status(200).json({
+            result: result
+        });
+        console.log("User <" + userId + "> was returned.")
     });
-
-    // TO DO:
-    // database request and returning of date
 });
 
 module.exports = router;

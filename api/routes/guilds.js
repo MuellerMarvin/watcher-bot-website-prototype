@@ -25,7 +25,7 @@ router.get('/', (req, res, next) => {
             guildIds.push(guild._id.slice(6));
         });
         res.status(200).json({
-            identifiers: guildIds,
+            result: guildIds,
         });
         console.log("IDs of all guilds returned.")
     });
@@ -36,9 +36,11 @@ router.get('/:guildId', (req, res, next) => {
     // retrieve API-parameter
     const guildId = req.params.guildId;
 
-    //respond
-    res.status(200).json({
-        message: 'one guild'
+    this.database.collection('guilds').find({ _id: "guild:" + guildId.toString() }).toArray(function(err, result) {
+        res.status(200).json({
+            result: result
+        });
+        console.log("Guild <" + guildId + "> was returned.")
     });
 });
 
