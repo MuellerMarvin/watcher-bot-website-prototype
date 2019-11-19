@@ -8,7 +8,7 @@ function initiateDatabase() {
     mongoClient.connect((err, db) => {
         if (err) throw err;
         console.log("Database connected.");
-        
+
         // only after it's connected
         app.setDatabase(mongoClient.db(config.databaseName));
     })

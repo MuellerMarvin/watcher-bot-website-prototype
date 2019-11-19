@@ -4,7 +4,7 @@ const app = express();
 // sets the database for all routes
 app.setDatabase = (database) => {
     guildRoutes.setDatabase(database);
-    //userRoutes.setDatabase(database);
+    userRoutes.setDatabase(database);
 }
 
 // Define Routes
