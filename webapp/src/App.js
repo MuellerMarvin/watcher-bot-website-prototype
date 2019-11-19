@@ -2,25 +2,25 @@ import React from 'react';
 import './App.css';
 import refreshIcon from './refresh-24px.svg';
 import { tsExpressionWithTypeArguments } from '@babel/types';
+const config = require('./config');
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      guilds: null,
+      guilds: [],
       loading: true,
     }
-
-    let retrievedGuilds = this.getGuilds();
-
-    this.setState(
-      
-    );
+  }
+  
+  componentDidMount() {
+    this.UpdateGuilds();
   }
 
-  getGuilds() {
-    // backend request
+  UpdateGuilds() {
+    let guilds = [];
+    fetch(config.apiUrl + "/guilds").then((res) => { console.log(res); });
   }
 
   render() {
@@ -37,6 +37,11 @@ function GuildList(props) {
   props.guilds.forEach(guild => {
     guildList.push(<GuildListItem guild={ guild }></GuildListItem>)
   });
+  return guildList;
+}
+
+function GuildListItem(props) {
+  return(<div className="GuildListItem"></div>);
 }
 
 function RefreshButton(props) {
