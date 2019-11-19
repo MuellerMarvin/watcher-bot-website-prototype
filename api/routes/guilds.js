@@ -11,6 +11,9 @@ router.setDatabase = (db) => {
 
 // returns all guilds
 router.get('/', (req, res, next) => {
+    // allow same origin
+    res.append('Access-Control-Allow-Origin', ['*']);
+
     // if the database isn't connected already
     if(!this.databaseConnected) {
         res.status.json({
@@ -33,6 +36,9 @@ router.get('/', (req, res, next) => {
 
 // returns a specific guild
 router.get('/:guildId', (req, res, next) => {
+    // allow same origin
+    res.append('Access-Control-Allow-Origin', ['*']);
+
     // retrieve API-parameter
     const guildId = req.params.guildId;
 

@@ -9,6 +9,9 @@ router.setDatabase = (db) => {
 }
 
 router.get('/', (req, res, next) => {
+        // allow same origin
+        res.append('Access-Control-Allow-Origin', ['*']);
+
         // if the database isn't connected already
         if(!this.databaseConnected) {
             res.status(200).json({
@@ -30,6 +33,9 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/:userId', (req, res, next) => {
+    // allow same origin
+    res.append('Access-Control-Allow-Origin', ['*']);
+
     // retrieve API-parameter
     const userId = req.params.userId;
 
