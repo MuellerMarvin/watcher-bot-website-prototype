@@ -1,5 +1,11 @@
 const express = require('express');
 const router = express.Router();
+var database = null;
+
+// set the database from the outside
+router.setDatabase = (db) => {
+    database = db;
+}
 
 router.get('/', (req, res, next) => {
     //respond

@@ -1,15 +1,18 @@
 const express = require('express');
 const app = express();
-const mongo = require('mongodb');
-const MongoClient = mongo.MongoClient();
-const url = "mongodb://localhost:27017/"
+
+// sets the database for all routes
+app.setDatabase = (database) => {
+    guildRoutes.setDatabase(database);
+    //userRoutes.setDatabase(database);
+}
 
 // Define Routes
-const guildRoutes = require('./api/routes/guild');
-const userRoutes = require('./api/routes/user');
+const guildRoutes = require('./routes/guilds');
+const userRoutes = require('./routes/users');
 
 // Connect Routes
 app.use('/guilds', guildRoutes);
-app.use('users', userRoutes);
+app.use('/users', userRoutes);
 
 module.exports = app;
