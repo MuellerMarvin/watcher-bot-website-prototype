@@ -36,13 +36,14 @@ class App extends React.Component {
         .then((data) => {
           // extract if from the single-item array and push it to the guilds list
           guilds.push(data.result[0]);
+        })
+        .then(() => {
+          // replace the state with the updated list of guilds
+          this.setState({
+            guilds: guilds
+          });
         });
       });
-    });
-
-    // replace the state with the updated list of guilds
-    this.setState({
-      guilds: guilds
     });
   }
 
@@ -55,16 +56,25 @@ class App extends React.Component {
   }
 }
 
-function GuildList(props) {
-  var guildList = [];
-  props.guilds.forEach(guild => {
-    guildList.push(<GuildListItem guild={ guild }></GuildListItem>)
-  });
-  return guildList;
+class GuildList extends React.Component {
+  render() {
+    var guildListItems = this.props.guilds.map(guild => {
+      return <GuildListItem guild={ guild }></GuildListItem>
+    });
+
+    return(
+    <div className="GuildList">
+      { guildListItems }
+    </div>);
+  }
 }
 
 function GuildListItem(props) {
-  return(<div className="GuildListItem"></div>);
+  return(
+  <div className="GuildListItem">
+    <p>{ props.guild.name }</p>
+  </div>
+  );
 }
 
 /* function RefreshButton(props) {

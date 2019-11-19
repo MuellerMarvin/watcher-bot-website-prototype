@@ -11,3 +11,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+
+.GuildList {
+  width: 100%;
+  height: 100%;
+  background: blue;
+}
+
+.GuildListItem {
+  height: 80px;
+  width: 100%;
+  background: green;
+}
