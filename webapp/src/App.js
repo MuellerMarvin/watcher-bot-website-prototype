@@ -50,8 +50,9 @@ class App extends React.Component {
 class GuildDashboard extends React.Component {
   render() {
     return(
-    <div className="GuildDashboardContainer">
+    <div className="GuildDashboard">
       <GuildHeader guild={ this.props.guild }></GuildHeader>
+      <div className="GuildDashboardDividerLine"></div>
     </div>
     );
   }
