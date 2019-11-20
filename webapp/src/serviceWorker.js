@@ -127,9 +127,10 @@ function checkValidServiceWorker(swUrl, config) {
 }
 
 export function unregister() {
-  if ('serviceWorker' in navigator) {
+/* Firefox thinks this is insecure - let's just uncomment this for now */
+/*   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready.then(registration => {
       registration.unregister();
     });
-  }
+  } */
 }

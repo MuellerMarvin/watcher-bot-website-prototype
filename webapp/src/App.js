@@ -1,88 +1,69 @@
 import React from 'react';
 import './App.css';
-//import refreshIcon from './refresh-24px.svg';
-const config = require('./config');
+import config from './config.json';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      guilds: [],
+      guild: null,
       loading: true,
+      pathname: window.location.pathname.slice(1),
+      apiUrl: config.apiUrl,
     }
   }
-  
+
   componentDidMount() {
-    this.UpdateGuilds();
+    this.updateGuild();
   }
 
-  /* updates the list of guilds in the state */
-  UpdateGuilds() {
-    // define a new empty list of guilds
-    let guilds = [];
-
-    // request all guild-Ids
-    fetch(config.apiUrl + "/guilds")
-    // then convert it from json to objects
-    .then(res => res.json())
-    // use that data and take each guild id
-    .then((data) => {
-      data.result.forEach(guildId => {
-        // request each guild from the api
-        fetch(config.apiUrl + "/guilds/" + guildId)
-        // convert it to an object
-        .then(res => res.json())
-        .then((data) => {
-          // extract if from the single-item array and push it to the guilds list
-          guilds.push(data.result[0]);
-        })
-        .then(() => {
-          // replace the state with the updated list of guilds
-          this.setState({
-            guilds: guilds
-          });
-        });
-      });
+  async updateGuild() {
+    // wait for response
+    const routeResponse = await fetch(this.state.apiUrl + "/routes/" + this.state.pathname);
+    // convert response from json
+    const routePayload = await routeResponse.json();
+    // take the Id in the response and make a request for it (slicing the first 6 characters off, because of the 'guild:' prefix)
+    const guildResponse = await fetch(this.state.apiUrl + "/guilds/" + routePayload.result[0].guildId.slice(6));
+    // convert response from json
+    const guildPayload = await guildResponse.json();
+    // set the state using that data
+    this.setState({
+      guild: guildPayload.result[0]
     });
+
+    console.log(this.state.guild)
   }
 
   render() {
-    return(
+    if(this.state.guild === null) {
+      return <p>loading...</p>
+    }
+    return (
       <div className="App">
-        <GuildList guilds={ this.state.guilds }></GuildList>
+        <GuildDashboard guild={ this.state.guild }></GuildDashboard>
       </div>
     );
   }
 }
 
-class GuildList extends React.Component {
+class GuildDashboard extends React.Component {
   render() {
-    var guildListItems = this.props.guilds.map(guild => {
-      return <GuildListItem guild={ guild }></GuildListItem>
-    });
-
     return(
-    <div className="GuildList">
-      { guildListItems }
-    </div>);
+    <div className="GuildDashboardContainer">
+      <GuildHeader guild={ this.props.guild }></GuildHeader>
+    </div>
+    );
   }
 }
 
-function GuildListItem(props) {
+function GuildHeader(props) {
   return(
-  <div className="GuildListItem">
-    <p>{ props.guild.name }</p>
-  </div>
-  );
-}
-
-/* function RefreshButton(props) {
-  return(
-    <div className="RefreshButton" onClick={ props.onClick }>
-      <img src={ refreshIcon } alt="refreshIcon"></img>
+    <div className="GuildHeader">
+      <img className="GuildHeaderIcon" alt="guild-icon" src={ props.guild.iconUrl }/>
+      <p className="GuildHeaderGuildTitle">{ props.guild.name }</p>
     </div>
   );
-} */
+}
 
 export default App;
