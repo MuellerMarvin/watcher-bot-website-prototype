@@ -71,6 +71,8 @@ function GuildHeader(props) {
         </div>
       </div>
       <div className="GuildHeaderInfoContainer">
+        <UserCountBubble Text={ props.guild.memberCount + " members" } BubbleColor="#373737"/>
+        <UserCountBubble Text="Online" BubbleColor="#FFFFFF"/>
       </div>
     </div>
   );
@@ -79,8 +81,8 @@ function GuildHeader(props) {
 function UserCountBubble(props) {
   return(
     <div className="UserCountBubble">
-      <div style={{ borderRadius: '50%', }}></div>
-      <p>Hello world</p>
+      <div style={{ borderRadius: '50%', color: props.BubbleColor }}></div>
+      <p>{ props.Text }</p>
     </div>
   );
 }

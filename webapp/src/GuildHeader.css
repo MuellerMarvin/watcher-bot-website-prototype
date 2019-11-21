@@ -1,61 +1,58 @@
 .GuildHeader {
-    display: block;
-    text-align: left;
-    height: 160px;
-    margin: 0;
-    padding: 0;
-    padding-bottom: 80px;
-  }
+  display: block;
+  text-align: left;
+  height: 160px;
+  margin: 0;
+  padding: 0;
+  padding-bottom: 80px;
+}
   
-  .GuildHeader>div {
-    padding: 0;
-    margin: 0;
-    display: inline-block;
-  }
-  
-  .GuildHeaderIcon {
-    display: inline-block;
-    border-radius: 50%;
-    transition-duration: 0.3s;
-    height: 160px;
-    width: 160px;
-    box-shadow: 0 0 3px rgba(0,0,0,0.5);
-    margin: 0;
-    padding: 0;
-    margin-left: 100px;
-    margin-right: 40px;
-  }
-  
-  .GuildHeaderIcon>img {
-    border-radius: 50%;
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .GuildHeaderIcon>img:hover {
-    border-radius: 20%;
-    transition-duration: 0.3s;
-  }
-  
-  .GuildHeaderGuildTitle {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    font-size: 63px;
-    height: 160px;
-    line-height: 160px;
-    vertical-align: 33%;
-  }
-  
-  .GuildHeaderTitleContainer {
-    display: block;
-    background: green;
-  }
-  
-  .GuildHeaderInfoContainer {
-    background: blue;
-    height: 40px;
-    width: 100%;
-  }
+.GuildHeader>div {
+  padding: 0;
+  display: inline-block;
+}
+
+.GuildHeaderIcon {
+  display: inline-block;
+  border-radius: 50%;
+  transition-duration: 0.3s;
+  height: 160px;
+  width: 160px;
+  box-shadow: 0 0 3px rgba(0,0,0,0.5);
+  margin: 0;
+  padding: 0;
+  margin-right: 40px;
+}
+
+.GuildHeaderIcon>img {
+  border-radius: 50%;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  transition-duration: 0.3s;
+}
+
+.GuildHeaderIcon>img:hover {
+  border-radius: 20%;
+  transition-duration: 0.3s;
+}
+
+.GuildHeaderGuildTitle {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  font-size: 63px;
+  height: 160px;
+  line-height: 160px;
+  vertical-align: 33%;
+}
+
+.GuildHeaderTitleContainer {
+  display: block;
+  margin-left: 100px;
+}
+
+.GuildHeaderInfoContainer {
+  margin-left: calc(100px + 160px + 40px);
+}
