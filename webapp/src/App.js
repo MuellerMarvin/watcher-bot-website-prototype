@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import './GuildHeader.css';
 import config from './config.json';
 
 class App extends React.Component {
@@ -61,8 +62,25 @@ class GuildDashboard extends React.Component {
 function GuildHeader(props) {
   return(
     <div className="GuildHeader">
-      <img className="GuildHeaderIcon" alt="guild-icon" src={ props.guild.iconUrl }/>
-      <p className="GuildHeaderGuildTitle">{ props.guild.name }</p>
+      <div className="GuildHeaderTitleContainer">
+        <div className="GuildHeaderIcon">
+          <img alt="guild-icon" src={ props.guild.iconUrl }/>
+        </div>
+        <div className="GuildHeaderGuildTitle">
+        <p>{ props.guild.name }</p>
+        </div>
+      </div>
+      <div className="GuildHeaderInfoContainer">
+      </div>
+    </div>
+  );
+}
+
+function UserCountBubble(props) {
+  return(
+    <div className="UserCountBubble">
+      <div style={{ borderRadius: '50%', }}></div>
+      <p>Hello world</p>
     </div>
   );
 }
