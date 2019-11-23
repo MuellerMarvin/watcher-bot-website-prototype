@@ -1,17 +1,17 @@
 import React, { useImperativeHandle } from 'react';
-import './App.css';
-import './GuildHeader.css';
-import './InfoList.css';
-import './AddMeButton.css';
+import './css/App.css';
+import './css/GuildHeader.css';
+import './css/InfoList.css';
+import './css/AddMeButton.css';
 import config from './config.json';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 // Import icons
 //import statsIcon from './poll-24px.svg';
-import channelIcon from './forum-24px.svg';
-import groupIcon from './people-24px.svg';
-import userIcon from './person-24px.svg';
-import emoteIcon from './favorite-24px.svg';
+import channelIcon from './assets/forum-24px.svg';
+import groupIcon from './assets/people-24px.svg';
+import userIcon from './assets/person-24px.svg';
+import emoteIcon from './assets/favorite-24px.svg';
 
 class App extends React.Component {
   constructor(props) {
@@ -68,14 +68,16 @@ class GuildDashboard extends React.Component {
   render() {
     return(
     <div className="GuildDashboard">
-      <GuildHeader guild={ this.props.guild }></GuildHeader>
-      <div className="GuildDashboardDividerLine"></div>
-      <InfoList Title="Channels" Icon={ channelIcon }></InfoList>
-      <div className="GuildDashboardDividerLine"></div>
+      <GuildHeader guild={ this.props.guild }/>
+      <div className="GuildDashboardDividerLine"/>
+      <InfoList Title="Top Channels" Icon={ channelIcon }>
+      </InfoList>
+      <div className="GuildDashboardDividerLine"/>
       <InfoList Title="Groups" Icon={ groupIcon }></InfoList>
-      <div className="GuildDashboardDividerLine"></div>
-      <InfoList Title="Users" Icon={ userIcon }></InfoList>
-      <div className="GuildDashboardDividerLine"></div>
+      <div className="GuildDashboardDividerLine"/>
+      <InfoList Title="Users" Icon={ userIcon }>
+      </InfoList>
+      <div className="GuildDashboardDividerLine"/>
       <InfoList Title="Emotes" Icon={ emoteIcon }></InfoList>
       <div className="AddMeButton">
           <button>I want this too!</button>
@@ -119,9 +121,7 @@ function InfoList(props) {
       <img src={ props.Icon } alt=""/>
       <p className="InfoListTitle">{ props.Title }</p>
       <div InfoListItemContainer>
-        <InfoListItem leftText="World population" rightText=">1,000,000"/>
-        <InfoListItem leftText="World population" rightText=">1,000,000"/>
-        <InfoListItem leftText="World population" rightText=">1,000,000"/>
+        { props.children }
       </div>
     </div>
   );
@@ -130,8 +130,8 @@ function InfoList(props) {
 function InfoListItem(props) {
   return(
     <div className="InfoListItem">
-      <p style={{ float: "left", textAlign: "left"}}>{ props.leftText }</p>
-      <p style={{ float: "right", textAlign: "right"}}>{ props.rightText }</p>
+      <p style={{ float: "left", textAlign: "left"}}>{ props.LeftText }</p>
+      <p style={{ float: "right", textAlign: "right"}}>{ props.RightText }</p>
     </div>
   );
 }
