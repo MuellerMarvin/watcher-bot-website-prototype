@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import './GuildHeader.css';
 import config from './config.json';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class App extends React.Component {
   constructor(props) {
@@ -38,7 +39,13 @@ class App extends React.Component {
 
   render() {
     if(this.state.guild === null) {
-      return <p>loading...</p>
+      return (
+      <div className="App">
+        <div className="GuildDashboard"> { /* This class is being used to retain the same visual as after-loading */}
+          <CircularProgress thickness="1.1"/>
+        </div>
+      </div>
+      );
     }
     return (
       <div className="App">
@@ -72,7 +79,7 @@ function GuildHeader(props) {
       </div>
       <div className="GuildHeaderInfoContainer">
         <UserCountBubble Text={ props.guild.memberCount + " members" } BubbleColor="#373737"/>
-        <UserCountBubble Text="Online" BubbleColor="#FFFFFF"/>
+        <UserCountBubble Text={ "some" +  " online" } BubbleColor="#FFFFFF"/>
       </div>
     </div>
   );

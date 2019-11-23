@@ -1,6 +1,5 @@
 * {
   font-family: 'Open Sans', sans-serif;
-  color: #373737;
 }
 
 body {
@@ -12,6 +11,13 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.MuiCircularProgress-root {
+  color: rgba(0, 0, 0, 0.2) !important;
+  height: 100px !important;
+  width: 100px !important;
+  margin-top: calc(50vh - 50px) !important;
 }
 
 .GuildDashboard {
@@ -26,7 +32,7 @@ code {
 .GuildDashboardDividerLine {
   display: block;
   height: 1px;
-  background-color: rgba(0,0,0,0.3);
+  background-color: #DEDEDE;
   width: 95%;
   margin: 0 auto;
   margin-top: 41.5px;
@@ -37,20 +43,19 @@ code {
 
 .UserCountBubble {
   display: inline-block;
-  height: 30px;
   border-radius: 15px;
   text-align: center;
   margin-right: 10px;
+  padding: 2px;
+  padding-left: 8px;
+  padding-right: 8px;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
 }
 
 .UserCountBubble > p {
+  margin: 0;
   color: black;
-  font-size: 0.9em;
-  line-height: 100%;
-  margin-top: 6px;
-  margin-bottom: 6px;
-  padding: 0;
+  font-size: 18px;
   padding-left: 10px;
   padding-right: 10px;
 }
