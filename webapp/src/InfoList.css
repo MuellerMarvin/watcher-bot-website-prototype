@@ -1,0 +1,44 @@
+.InfoList {
+    margin: 0 auto;
+    display: block;
+    max-width: 600px;
+}
+
+.InfoList > img {
+    float: left;
+    display: inline-block;
+    padding-left: 20px;
+}
+
+.InfoListTitle {
+    display: block;
+    height: 24px;
+    text-align: left;
+    text-indent: 10px;
+    overflow: hidden;
+}
+
+.InfoListItemContainer {
+    display: block;
+    width: 100%;
+}
+
+.InfoListItem {
+    display: block;
+    height: 30px;
+    border-bottom: 1px solid #DEDEDE;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    padding-top: 10px;
+}
+
+.InfoListItem > p {
+    display: inline-block;
+    text-indent: 20px;
+    padding: 0;
+    margin: 0;
+    padding-right: 20px;
+    width: calc(50% - 20px);
+    overflow: hidden;
+}

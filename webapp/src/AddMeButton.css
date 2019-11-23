@@ -1,0 +1,24 @@
+.AddMeButton {
+    display: block;
+    padding: 50px;
+}
+
+.AddMeButton > button {
+    border: none;
+    color: white;
+    font-size: 1em;
+    background: #44bb68;
+    border-radius: 30px;
+    padding: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 3);
+    transition-duration: 0.3s;
+}
+
+.AddMeButton > button:hover {
+    transition-duration: 0.3s;
+    background: #83c096;
+    padding-left: 40px;
+    padding-right: 40px;
+}

@@ -17,15 +17,16 @@ code {
   color: rgba(0, 0, 0, 0.2) !important;
   height: 100px !important;
   width: 100px !important;
-  margin-top: calc(50vh - 50px) !important;
+  margin-top: calc(50vhq - 50px) !important;
 }
 
 .GuildDashboard {
   box-shadow: 0 0 6px rgba(0,0,0,0.3);
   max-width: 1000px;
+  min-width: 620px;
   width: 100%;
   margin: 0 auto;
-  height: 100%;
+  min-height: 100%;
   display: block;
 }
 
