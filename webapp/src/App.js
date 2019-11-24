@@ -19,6 +19,7 @@ class App extends React.Component {
 
     this.state = {
       guild: null,
+      noRoute: false,
       loading: true,
       pathname: window.location.pathname.slice(1),
       apiUrl: config.apiUrl,
@@ -34,42 +35,64 @@ class App extends React.Component {
     const routeResponse = await fetch(this.state.apiUrl + "/routes/" + this.state.pathname);
     // convert response from json
     const routePayload = await routeResponse.json();
-    // take the Id in the response and make a request for it (slicing the first 6 characters off, because of the 'guild:' prefix)
-    const guildResponse = await fetch(this.state.apiUrl + "/guilds/" + routePayload.result[0].guildId.slice(6));
-    // convert response from json
-    const guildPayload = await guildResponse.json();
 
-    let backgroundImageUrl = null;
-    try {
-      backgroundImageUrl = guildPayload.result[0].webappConfig.backgroundImageUrl;
-    } catch (error) {
-      backgroundImageUrl = null;
-      console.log(error);
+    // if the route does not exist, the function will exit
+    if(routePayload.result[0] === undefined) {
+      this.setState({
+        noRoute: true, // this will show the "no-route"-page
+      });
+      return;
     }
 
-    backgroundImageUrl = guildPayload.result[0].webappConfig.backgroundImageUrl;
-    console.log("uwu");
+    // get guildId from route
+    const guildId = routePayload.result[0].guildId.slice(6);
 
-    if(backgroundImageUrl !== null) {
-      console.log("null");
-      // set the state using that data
-      this.setState({
-        guild: guildPayload.result[0],
-        backgroundImageUrl: backgroundImageUrl
-      });
+    // take the Id in the response and make a request for it (slicing the first 6 characters off, because of the 'guild:' prefix)
+    const guildResponse = await fetch(this.state.apiUrl + "/guilds/" + guildId);
+    // convert response from json
+    var guild = await guildResponse.json();
+    guild = guild.result[0];
+
+    // if the backgroundimage doesn't exist, set it to an empty string
+    if(guild.webappConfig === undefined || guild.webappConfig === null || guild.webappConfig.backgroundImageUrl === undefined || guild.webappConfig.backgroundImageUrl == null) {
+      guild.webappConfig = {
+        backgroundImageUrl: "",
+      };
+    }
+
+    // get the channels sorted by most messages to least
+    const channelResponse = await fetch(this.state.apiUrl + "/channels/" + guildId);
+    // retrieve the data from the json
+    const channelPayload = await channelResponse.json();
+    // add the data to the guild-object, if there are any channels to show
+    if(channelPayload.result !== undefined && channelPayload.result !== null) {
+      guild.channels = channelPayload.result
     }
     else {
-      // set the state using that data
-      this.setState({
-      guild: guildPayload.result[0],
-      backgroundImageUrl: backgroundImageUrl
-      });
-      console.log("not null :)");
+      guild.channels = [{
+        name: "There are no channels to show",
+        messageCount: "",
+      }];
     }
+
+    // set the state using the guild-data
+    this.setState({
+      guild: guild,
+    });
   }
 
   render() {
-    if(this.state.guild === null) {
+    if(this.state.noRoute) {
+      return(
+        <div className="App">
+          <div className="GuildDashboard">
+            <p style={{ margin: "0 auto" }}>That route doesn't exist. If you believe this is an error, contact us!</p>
+          </div>
+        </div>
+      );
+    }
+
+    if(this.state.guild === null || this.state.guild === undefined) {
       return (
         <div className="App">
           <div className="GuildDashboard"> { /* This class is being used to retain the same visual as after-loading */}
@@ -79,7 +102,7 @@ class App extends React.Component {
       );
     }
     return (
-      <div className="App"  style={{ backgroundImage: "url(https://i.redd.it/7ykufzphewl31.jpg)", backgroundSize: "cover", backgroundRepeat: "no-repeat" }}>
+      <div className="App"  style={{ backgroundImage: "url(" + this.state.guild.webappConfig.backgroundImageUrl + ")", backgroundSize: "cover", backgroundRepeat: "no-repeat" }}>
         <GuildDashboard guild={ this.state.guild }></GuildDashboard>
       </div>
     );
@@ -88,7 +111,9 @@ class App extends React.Component {
 
 class GuildDashboard extends React.Component {
   render() {
-    let channelList = [];
+    let channelList = this.props.guild.channels.map((channel) => {
+      return(<InfoListItem LeftText={ "#" + channel.name } RightText={ channel.messageCount + " messages" }/>);
+    });
     let groupList = [];
     let userList = [];
     let emoteList = [];
@@ -97,7 +122,7 @@ class GuildDashboard extends React.Component {
       <div className="GuildDashboard" style={{ backgroundColor: "rgba(255, 255, 255, 0.97)" }}>
         <GuildHeader guild={ this.props.guild }/>
         <div className="GuildDashboardDividerLine"/>
-        <InfoList Title="Channels" Icon={ channelIcon}></InfoList>
+        <InfoList Title="Most used channels" Icon={ channelIcon }>{ channelList }</InfoList>
         <div className="GuildDashboardDividerLine"/>
         <InfoList Title="Groups" Icon={ groupIcon }>{ groupList }</InfoList>
         <div className="GuildDashboardDividerLine"/>
