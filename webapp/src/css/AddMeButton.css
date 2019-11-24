@@ -22,3 +22,13 @@
     padding-left: 40px;
     padding-right: 40px;
 }
+
+.AddMeButton > :focus {
+    border: none;
+}
+
+button::-moz-focus-inner {
+    border: 0;
+  }
+  
+  

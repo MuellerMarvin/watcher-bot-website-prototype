@@ -88,17 +88,22 @@ class App extends React.Component {
 
 class GuildDashboard extends React.Component {
   render() {
+    let channelList = [];
+    let groupList = [];
+    let userList = [];
+    let emoteList = [];
+
     return(
       <div className="GuildDashboard" style={{ backgroundColor: "rgba(255, 255, 255, 0.97)" }}>
         <GuildHeader guild={ this.props.guild }/>
         <div className="GuildDashboardDividerLine"/>
-        <InfoList Title="Channels" Icon={ channelIcon }></InfoList>
+        <InfoList Title="Channels" Icon={ channelIcon}></InfoList>
         <div className="GuildDashboardDividerLine"/>
-        <InfoList Title="Groups" Icon={ groupIcon }></InfoList>
+        <InfoList Title="Groups" Icon={ groupIcon }>{ groupList }</InfoList>
         <div className="GuildDashboardDividerLine"/>
-        <InfoList Title="Users" Icon={ userIcon }></InfoList>
+        <InfoList Title="Users" Icon={ userIcon }>{ userList }</InfoList>
         <div className="GuildDashboardDividerLine"/>
-        <InfoList Title="Emotes" Icon={ emoteIcon }></InfoList>
+        <InfoList Title="Emotes" Icon={ emoteIcon }>{ emoteList }</InfoList>
         <div className="AddMeButton">
             <button>I want this too!</button>
           </div>
