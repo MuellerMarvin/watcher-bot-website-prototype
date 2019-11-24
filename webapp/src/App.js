@@ -1,4 +1,4 @@
-import React, { useImperativeHandle } from 'react';
+import React from 'react';
 import './css/App.css';
 import './css/GuildHeader.css';
 import './css/InfoList.css';
@@ -38,12 +38,34 @@ class App extends React.Component {
     const guildResponse = await fetch(this.state.apiUrl + "/guilds/" + routePayload.result[0].guildId.slice(6));
     // convert response from json
     const guildPayload = await guildResponse.json();
-    // set the state using that data
-    this.setState({
-      guild: guildPayload.result[0]
-    });
 
-    console.log(this.state.guild)
+    let backgroundImageUrl = null;
+    try {
+      backgroundImageUrl = guildPayload.result[0].webappConfig.backgroundImageUrl;
+    } catch (error) {
+      backgroundImageUrl = null;
+      console.log(error);
+    }
+
+    backgroundImageUrl = guildPayload.result[0].webappConfig.backgroundImageUrl;
+    console.log("uwu");
+
+    if(backgroundImageUrl !== null) {
+      console.log("null");
+      // set the state using that data
+      this.setState({
+        guild: guildPayload.result[0],
+        backgroundImageUrl: backgroundImageUrl
+      });
+    }
+    else {
+      // set the state using that data
+      this.setState({
+      guild: guildPayload.result[0],
+      backgroundImageUrl: backgroundImageUrl
+      });
+      console.log("not null :)");
+    }
   }
 
   render() {
@@ -51,13 +73,13 @@ class App extends React.Component {
       return (
         <div className="App">
           <div className="GuildDashboard"> { /* This class is being used to retain the same visual as after-loading */}
-            <CircularProgress thickness="1.1"/>
+            <CircularProgress thickness={ 1.1 } />
           </div>
         </div>
       );
     }
     return (
-      <div className="App">
+      <div className="App"  style={{ backgroundImage: "url(https://i.redd.it/7ykufzphewl31.jpg)", backgroundSize: "cover", backgroundRepeat: "no-repeat" }}>
         <GuildDashboard guild={ this.state.guild }></GuildDashboard>
       </div>
     );
@@ -67,22 +89,20 @@ class App extends React.Component {
 class GuildDashboard extends React.Component {
   render() {
     return(
-    <div className="GuildDashboard">
-      <GuildHeader guild={ this.props.guild }/>
-      <div className="GuildDashboardDividerLine"/>
-      <InfoList Title="Top Channels" Icon={ channelIcon }>
-      </InfoList>
-      <div className="GuildDashboardDividerLine"/>
-      <InfoList Title="Groups" Icon={ groupIcon }></InfoList>
-      <div className="GuildDashboardDividerLine"/>
-      <InfoList Title="Users" Icon={ userIcon }>
-      </InfoList>
-      <div className="GuildDashboardDividerLine"/>
-      <InfoList Title="Emotes" Icon={ emoteIcon }></InfoList>
-      <div className="AddMeButton">
-          <button>I want this too!</button>
-        </div>
-    </div>
+      <div className="GuildDashboard" style={{ backgroundColor: "rgba(255, 255, 255, 0.97)" }}>
+        <GuildHeader guild={ this.props.guild }/>
+        <div className="GuildDashboardDividerLine"/>
+        <InfoList Title="Channels" Icon={ channelIcon }></InfoList>
+        <div className="GuildDashboardDividerLine"/>
+        <InfoList Title="Groups" Icon={ groupIcon }></InfoList>
+        <div className="GuildDashboardDividerLine"/>
+        <InfoList Title="Users" Icon={ userIcon }></InfoList>
+        <div className="GuildDashboardDividerLine"/>
+        <InfoList Title="Emotes" Icon={ emoteIcon }></InfoList>
+        <div className="AddMeButton">
+            <button>I want this too!</button>
+          </div>
+      </div>
     );
   }
 }
@@ -100,7 +120,7 @@ function GuildHeader(props) {
       </div>
       <div className="GuildHeaderInfoContainer">
         <UserCountBubble Text={ props.guild.memberCount + " members" } BubbleColor="#373737"/>
-        <UserCountBubble Text={ "some" +  " online" } BubbleColor="#FFFFFF"/>
+        <UserCountBubble Text={ "some online" } BubbleColor="#FFFFFF"/>
       </div>
     </div>
   );
@@ -120,7 +140,7 @@ function InfoList(props) {
     <div className="InfoList">
       <img src={ props.Icon } alt=""/>
       <p className="InfoListTitle">{ props.Title }</p>
-      <div InfoListItemContainer>
+      <div>
         { props.children }
       </div>
     </div>
