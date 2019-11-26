@@ -14,7 +14,7 @@ function initiateDatabase() {
     })
 }
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || config.port || 3001;
 const server = http.createServer(app);
 
 initiateDatabase();
