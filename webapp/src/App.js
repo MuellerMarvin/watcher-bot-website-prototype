@@ -33,7 +33,7 @@ class App extends React.Component {
 
   async updateGuild() {
     // check if pathname is empty, then it's the landing-page
-    if(this.state.pathname == "") {
+    if(this.state.pathname === "") {
       this.setState({
         landingPage: true,
       })
@@ -90,7 +90,7 @@ class App extends React.Component {
   }
 
   render() {
-    if(this.state.landingPage == true) {
+    if(this.state.landingPage === true) {
       return(
         <div className="App">
 
