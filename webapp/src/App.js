@@ -20,6 +20,7 @@ class App extends React.Component {
     this.state = {
       guild: null,
       noRoute: false,
+      landingPage: false,
       loading: true,
       pathname: window.location.pathname.slice(1),
       apiUrl: config.apiUrl,
@@ -31,6 +32,13 @@ class App extends React.Component {
   }
 
   async updateGuild() {
+    // check if pathname is empty, then it's the landing-page
+    if(this.state.pathname == "") {
+      this.setState({
+        landingPage: true,
+      })
+    }
+
     // wait for response
     const routeResponse = await fetch(this.state.apiUrl + "/routes/" + this.state.pathname);
     // convert response from json
@@ -82,7 +90,14 @@ class App extends React.Component {
   }
 
   render() {
-    if(this.state.noRoute) {
+    if(this.state.landingPage == true) {
+      return(
+        <div className="App">
+
+        </div>
+      );
+    }
+    else if(this.state.noRoute) {
       return(
         <div className="App">
           <div className="GuildDashboard">
@@ -91,8 +106,7 @@ class App extends React.Component {
         </div>
       );
     }
-
-    if(this.state.guild === null || this.state.guild === undefined) {
+    else if(this.state.guild === null || this.state.guild === undefined) {
       return (
         <div className="App">
           <div className="GuildDashboard"> { /* This class is being used to retain the same visual as after-loading */}
@@ -101,11 +115,13 @@ class App extends React.Component {
         </div>
       );
     }
-    return (
-      <div className="App"  style={{ backgroundImage: "url(" + this.state.guild.webappConfig.backgroundImageUrl + ")", backgroundSize: "cover", backgroundRepeat: "no-repeat" }}>
-        <GuildDashboard guild={ this.state.guild }></GuildDashboard>
-      </div>
-    );
+    else {
+      return (
+        <div className="App"  style={{ backgroundImage: "url(" + this.state.guild.webappConfig.backgroundImageUrl + ")", backgroundSize: "cover", backgroundRepeat: "no-repeat" }}>
+          <GuildDashboard guild={ this.state.guild }></GuildDashboard>
+        </div>
+      );
+    }
   }
 }
 
