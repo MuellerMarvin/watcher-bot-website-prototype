@@ -2,7 +2,8 @@ import React from 'react';
 import './css/App.css';
 import './css/GuildHeader.css';
 import './css/InfoList.css';
-import './css/AddMeButton.css';
+import './css/GreenButton.css';
+import './css/LandingPage.css';
 import config from './config.json';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -93,7 +94,7 @@ class App extends React.Component {
     if(this.state.landingPage === true) {
       return(
         <div className="App">
-
+          <LandingPage></LandingPage>
         </div>
       );
     }
@@ -145,9 +146,7 @@ class GuildDashboard extends React.Component {
         <InfoList Title="Users" Icon={ userIcon }>{ userList }</InfoList>
         <div className="GuildDashboardDividerLine"/>
         <InfoList Title="Emotes" Icon={ emoteIcon }>{ emoteList }</InfoList>
-        <div className="AddMeButton">
-            <button>I want this too!</button>
-          </div>
+        <GreenButton onClick=""/>
       </div>
     );
   }
@@ -198,6 +197,27 @@ function InfoListItem(props) {
     <div className="InfoListItem">
       <p style={{ float: "left", textAlign: "left"}}>{ props.LeftText }</p>
       <p style={{ float: "right", textAlign: "right"}}>{ props.RightText }</p>
+    </div>
+  );
+}
+
+function GreenButton(props) {
+  return(
+    <div className="GreenButton">
+      <button onClick={ props.onClick }>
+        I want this too!
+      </button>
+    </div>
+  );
+}
+
+function LandingPage(props) {
+  return(
+    <div className="LandingPage">
+      <p className="LandingPageCornerText">WatcherBot</p>
+      <img className="LandingPageBigLogo" alt="logo"/>
+      <p className="LandingPageTitle">Title Placeholder</p>
+      <GreenButton onClick={() => { window.location = "" /* discord bot invite url */ }}></GreenButton>
     </div>
   );
 }

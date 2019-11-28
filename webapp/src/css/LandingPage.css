@@ -1,0 +1,23 @@
+.LandingPage {
+    height: 100%;
+    width: 100%;
+}
+
+.LandingPageCornerText {
+    font-size: 0.9em;
+    font-weight: lighter;
+    float: left;
+    padding: 20px;
+}
+
+.LandingPageBigLogo {
+    margin: 0 auto;
+    border: 1px solid black;
+    display: block;
+    height: 200px;
+    width: 200px;
+}
+
+.LandingPageTitle {
+    font-size: 2em;
+}
