@@ -17,13 +17,18 @@ router.get('/:routeId', (req, res, next) => {
 
     // retrieve API-parameter
     const routeId = req.params.routeId;
-
-    this.database.collection('routes').find({ _id: mongodb.ObjectID(routeId.toString()) }).toArray(function(err, result) {
-        res.status(200).json({
-            result: result
+    try {
+        this.database.collection('routes').find({ _id: mongodb.ObjectID(routeId.toString()) }).toArray(function(err, result) {
+            res.status(200).json({
+                result: result
+            });
+            console.log("Route <" + routeId + "> was returned.")
         });
-        console.log("Route <" + routeId + "> was returned.")
-    });
+    } catch (error) {
+        res.status(200).json({
+            result: "Error"
+        });
+    }
 });
 
 module.exports = router;
