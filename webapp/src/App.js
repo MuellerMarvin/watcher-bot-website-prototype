@@ -119,7 +119,7 @@ class App extends React.Component {
     }
     else {
       return (
-        <div className="App"  style={{ backgroundImage: "url(" + this.state.guild.webappConfig.backgroundImageUrl + ")", backgroundSize: "cover", backgroundRepeat: "no-repeat" }}>
+        <div className="App"  style={{ backgroundImage: "url(" + this.state.guild.webappConfig.backgroundImageUrl + ")", backgroundSize: "cover", backgroundRepeat: "no-repeat", height: "unset" }}>
           <GuildDashboard guild={ this.state.guild }></GuildDashboard>
         </div>
       );
