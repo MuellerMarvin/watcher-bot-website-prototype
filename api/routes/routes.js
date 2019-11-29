@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const mongodb = require('mongodb');
 this.databaseConnected = false;
 this.database = null;
 
@@ -17,7 +18,7 @@ router.get('/:routeId', (req, res, next) => {
     // retrieve API-parameter
     const routeId = req.params.routeId;
 
-    this.database.collection('routes').find({ _id: routeId.toString() }).toArray(function(err, result) {
+    this.database.collection('routes').find({ _id: mongodb.ObjectID(routeId.toString()) }).toArray(function(err, result) {
         res.status(200).json({
             result: result
         });
