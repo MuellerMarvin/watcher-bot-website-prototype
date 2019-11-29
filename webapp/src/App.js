@@ -7,8 +7,9 @@ import './css/LandingPage.css';
 import config from './config.json';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-// Import icons
+// Import aasets
 //import statsIcon from './poll-24px.svg';
+import logo from './assets/WatcherBot-logos_transparent.png';
 import channelIcon from './assets/forum-24px.svg';
 import groupIcon from './assets/people-24px.svg';
 import userIcon from './assets/person-24px.svg';
@@ -216,7 +217,7 @@ function LandingPage(props) {
     <div className="LandingPage">
       <p className="LandingPageCornerText">WatcherBot</p>
       <div className="LandingPageContentContainer">
-        <img className="LandingPageBigLogo" alt="logo"/>
+        <img className="LandingPageBigLogo" alt="logo" src={ logo }/>
         <p className="LandingPageTitle">Feel the heartbeat of your server</p>
         <GreenButton onClick={() => { window.location = config.botUrl /* discord bot invite url */ }}>
           Add to Discord
