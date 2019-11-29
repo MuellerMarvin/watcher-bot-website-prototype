@@ -17,7 +17,7 @@ router.get('/:routeId', (req, res, next) => {
     // retrieve API-parameter
     const routeId = req.params.routeId;
 
-    this.database.collection('routes').find({ route: routeId.toString() }).toArray(function(err, result) {
+    this.database.collection('routes').find({ _id: routeId.toString() }).toArray(function(err, result) {
         res.status(200).json({
             result: result
         });
