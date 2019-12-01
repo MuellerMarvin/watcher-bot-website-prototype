@@ -18,18 +18,6 @@ router.get('/', (req, res, next) => {
                 message: "database awaiting connection"
             });
         }
-
-        // get all user IDs and return them
-        this.database.collection('users').find().toArray(function(err, results) {
-            var userIds = [];
-            results.forEach(user => {
-                userIds.push(user._id.slice(5));
-            });
-            res.status(200).json({
-                result: userIds,
-            });
-            console.log("IDs of all users returned.")
-        });
 });
 
 router.get('/:userId', (req, res, next) => {
