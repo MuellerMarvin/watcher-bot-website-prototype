@@ -9,15 +9,15 @@ router.setDatabase = (db) => {
 }
 
 router.get('/', (req, res, next) => {
-        // allow same origin
-        res.append('Access-Control-Allow-Origin', ['*']);
+    // allow same origin
+    res.append('Access-Control-Allow-Origin', ['*']);
 
-        // if the database isn't connected already
-        if(!this.databaseConnected) {
-            res.status(200).json({
-                message: "database awaiting connection"
-            });
-        }
+    // if the database isn't connected already
+    if(!this.databaseConnected) {
+        res.status(200).json({
+            message: "database awaiting connection"
+        });
+    }
 });
 
 router.get('/:userId', (req, res, next) => {
