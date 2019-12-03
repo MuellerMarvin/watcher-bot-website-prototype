@@ -41,6 +41,7 @@ class App extends React.Component {
       })
     }
 
+    //#region Route-Request
     // wait for response
     const routeResponse = await fetch(this.state.apiUrl + "/routes/" + this.state.pathname);
     // convert response from json
@@ -53,7 +54,9 @@ class App extends React.Component {
       });
       return;
     }
+    //#endregion
 
+    //#region Guild-Request
     // get guildId from route
     const guildId = routePayload.result[0].guildId.slice(6);
 
@@ -69,7 +72,9 @@ class App extends React.Component {
         backgroundImageUrl: "",
       };
     }
+    //#endregion
 
+    //#region Channel-Request
     // get the channels sorted by most messages to least
     const channelResponse = await fetch(this.state.apiUrl + "/channels/" + guildId);
     // retrieve the data from the json
@@ -84,6 +89,32 @@ class App extends React.Component {
         messageCount: "",
       }];
     }
+    //#endregion
+
+    //#region User-Request
+    // using a for-loop instead of a forEach function, due to Promises not being resolved otherwise
+    for(let i = 0; i < guild.members.length; i++) {
+      let userResponse = await fetch(this.state.apiUrl + "/users/" + guild.members[i].slice(5));
+      let userPayload = await userResponse.json();
+      guild.members[i] = userPayload.result[0]; // add the requested user to the list, where once just it's Id was
+
+      // some beauty adjustments
+      if(guild.members[i].presence.status == 'online') {
+        guild.members[i].presence.status = 'Online';
+      }
+      else if(guild.members[i].presence.status == 'offline') {
+        guild.members[i].presence.status = 'Offline';
+      }
+      else if(guild.members[i].presence.status == 'dnd') {
+        guild.members[i].presence.status = "Don't disturb";
+      }
+      else if(guild.members[i].presence.status == 'idle') {
+        guild.members[i].presence.status = 'AFK';
+      }
+    }
+
+    //#endregion
+
 
     // set the state using the guild-data
     this.setState({
@@ -130,10 +161,12 @@ class App extends React.Component {
 class GuildDashboard extends React.Component {
   render() {
     let channelList = this.props.guild.channels.map((channel) => {
-      return(<InfoListItem LeftText={ "#" + channel.name } RightText={ channel.messageCount + " messages" }/>);
+      return(<InfoListItem key={channel._id} LeftText={ "#" + channel.name } RightText={ channel.messageCount + " messages" }/>);
+    });
+    let userList = this.props.guild.members.map((member) => {
+      return(<InfoListItem key={member._id} LeftText={ member.username } RightText={ member.presence.status }/>);
     });
     let groupList = [];
-    let userList = [];
     let emoteList = [];
 
     return(
@@ -142,12 +175,13 @@ class GuildDashboard extends React.Component {
         <div className="GuildDashboardDividerLine"/>
         <InfoList Title="Most used channels" Icon={ channelIcon }>{ channelList }</InfoList>
         <div className="GuildDashboardDividerLine"/>
-        <InfoList Title="Groups" Icon={ groupIcon }>{ groupList }</InfoList>
-        <div className="GuildDashboardDividerLine"/>
+        {/* <InfoList Title="Groups" Icon={ groupIcon }>{ groupList }</InfoList>
+        <div className="GuildDashboardDividerLine"/> */ } 
         <InfoList Title="Users" Icon={ userIcon }>{ userList }</InfoList>
+        {/* <div className="GuildDashboardDividerLine"/>
+        <InfoList Title="Emotes" Icon={ emoteIcon }>{ emoteList }</InfoList> */}
         <div className="GuildDashboardDividerLine"/>
-        <InfoList Title="Emotes" Icon={ emoteIcon }>{ emoteList }</InfoList>
-        <GreenButton onClick="" style={{ padding: "50px" }}>I want this too!</GreenButton>
+        <GreenButton onClick={ function() {return;} } style={{ padding: "50px" }}>I want this too!</GreenButton>
       </div>
     );
   }
