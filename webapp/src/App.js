@@ -11,9 +11,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 //import statsIcon from './poll-24px.svg';
 import logo from './assets/WatcherBot-logos_transparent.png';
 import channelIcon from './assets/forum-24px.svg';
-import groupIcon from './assets/people-24px.svg';
 import userIcon from './assets/person-24px.svg';
-import emoteIcon from './assets/favorite-24px.svg';
+//import groupIcon from './assets/people-24px.svg';
+//import emoteIcon from './assets/favorite-24px.svg';
 
 class App extends React.Component {
   constructor(props) {
@@ -99,16 +99,16 @@ class App extends React.Component {
       guild.members[i] = userPayload.result[0]; // add the requested user to the list, where once just it's Id was
 
       // some beauty adjustments
-      if(guild.members[i].presence.status == 'online') {
+      if(guild.members[i].presence.status === 'online') {
         guild.members[i].presence.status = 'Online';
       }
-      else if(guild.members[i].presence.status == 'offline') {
+      else if(guild.members[i].presence.status === 'offline') {
         guild.members[i].presence.status = 'Offline';
       }
-      else if(guild.members[i].presence.status == 'dnd') {
+      else if(guild.members[i].presence.status === 'dnd') {
         guild.members[i].presence.status = "Don't disturb";
       }
-      else if(guild.members[i].presence.status == 'idle') {
+      else if(guild.members[i].presence.status === 'idle') {
         guild.members[i].presence.status = 'AFK';
       }
     }
@@ -166,8 +166,8 @@ class GuildDashboard extends React.Component {
     let userList = this.props.guild.members.map((member) => {
       return(<InfoListItem key={member._id} LeftText={ member.username } RightText={ member.presence.status }/>);
     });
-    let groupList = [];
-    let emoteList = [];
+    //let groupList = [];
+    //let emoteList = [];
 
     return(
       <div className="GuildDashboard" style={{ backgroundColor: "rgba(255, 255, 255, 0.97)" }}>
