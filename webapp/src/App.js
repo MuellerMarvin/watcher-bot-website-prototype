@@ -39,6 +39,7 @@ class App extends React.Component {
       this.setState({
         landingPage: true,
       })
+      return;
     }
 
     //#region Route-Request
@@ -58,7 +59,7 @@ class App extends React.Component {
 
     //#region Guild-Request
     // get guildId from route
-    const guildId = routePayload.result[0].guildId.slice(6);
+    const guildId = routePayload.result[0].guildId;
 
     // take the Id in the response and make a request for it (slicing the first 6 characters off, because of the 'guild:' prefix)
     const guildResponse = await fetch(this.state.apiUrl + "/guilds/" + guildId);
@@ -67,6 +68,7 @@ class App extends React.Component {
     guild = guild.result[0];
 
     // if the backgroundimage doesn't exist, set it to an empty string
+    console.log("aaaaaa");
     if(guild.webappConfig === undefined || guild.webappConfig === null || guild.webappConfig.backgroundImageUrl === undefined || guild.webappConfig.backgroundImageUrl == null) {
       guild.webappConfig = {
         backgroundImageUrl: "",
@@ -94,7 +96,7 @@ class App extends React.Component {
     //#region User-Request
     // using a for-loop instead of a forEach function, due to Promises not being resolved otherwise
     for(let i = 0; i < guild.members.length; i++) {
-      let userResponse = await fetch(this.state.apiUrl + "/users/" + guild.members[i].slice(5));
+      let userResponse = await fetch(this.state.apiUrl + "/users/" + guild.members[i]);
       let userPayload = await userResponse.json();
       guild.members[i] = userPayload.result[0]; // add the requested user to the list, where once just it's Id was
 

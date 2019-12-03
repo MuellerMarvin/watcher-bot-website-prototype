@@ -27,7 +27,7 @@ router.get('/:userId', (req, res, next) => {
     // retrieve API-parameter
     const userId = req.params.userId;
 
-    this.database.collection('users').find({ _id: "user:" + userId.toString() }).toArray(function(err, result) {
+    this.database.collection('users').find({ userId: userId.toString() }).toArray(function(err, result) {
         res.status(200).json({
             result: result
         });

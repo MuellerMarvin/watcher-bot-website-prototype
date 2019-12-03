@@ -42,7 +42,7 @@ router.get('/:guildId', (req, res, next) => {
     // retrieve API-parameter
     const guildId = req.params.guildId;
 
-    this.database.collection('guilds').find({ _id: "guild:" + guildId.toString() }).toArray(function(err, result) {
+    this.database.collection('guilds').find({ guildId: guildId.toString() }).toArray(function(err, result) {
         res.status(200).json({
             result: result
         });
