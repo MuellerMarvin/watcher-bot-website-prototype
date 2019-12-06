@@ -20,18 +20,6 @@ router.get('/', (req, res, next) => {
             message: "database awaiting connection"
         });
     }
-
-    // get all guildIDs and return them
-    this.database.collection('guilds').find().toArray(function(err, results) {
-        var guildIds = [];
-        results.forEach(guild => {
-            guildIds.push(guild._id.slice(6));
-        });
-        res.status(200).json({
-            result: guildIds,
-        });
-        console.log("IDs of all guilds returned.")
-    });
 });
 
 // returns a specific guild
