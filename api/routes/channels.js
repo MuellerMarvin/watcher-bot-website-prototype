@@ -16,7 +16,7 @@ router.use('/:guildId', (req, res, next) => {
     // retrieve API-parameter
     const guildId = req.params.guildId;
 
-    this.database.collection('channels').find({ guildId: guildId.toString() }).sort({ messageCount: -1 }).toArray(function(err, result) {
+    this.database.collection('channels').find({ guildId: guildId.toString() })).toArray(function(err, result) {
         res.status(200).json({
             result: result
         });
