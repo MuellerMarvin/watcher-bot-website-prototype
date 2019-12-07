@@ -23,19 +23,31 @@ router.get('/', (req, res, next) => {
 });
 
 // returns a specific guild
-router.get('/:guildId', (req, res, next) => {
+router.get('/:guildId', async (req, res, next) => {
     // allow same origin
     res.append('Access-Control-Allow-Origin', ['*']);
 
     // retrieve API-parameter
     const guildId = req.params.guildId;
 
-    this.database.collection('guilds').find({ guildId: guildId.toString() }).toArray(function(err, result) {
-        res.status(200).json({
-            result: result
-        });
-        console.log("Guild <" + guildId + "> was returned.")
+    // get guild from database
+    var result = await this.database.collection('guilds').find({ guildId: guildId.toString() }).toArray();
+    guild = result[0];
+
+    // get channels from database
+    guild.channels = await this.database.collection('channels').find({ guildId: guildId.toString() }).toArray();
+
+    // get users from database
+    for (let i = 0; i < guild.members.length; i++) {
+        let user = await this.database.collection('users').find({ userId: guild.members[i] }).toArray();
+        guild.members[i] = user[0];
+    }
+
+    res.status(200).json({
+        result: guild
     });
+
+    console.log("Guild <" + guildId + "> was returned.")
 });
 
 module.exports = router;
