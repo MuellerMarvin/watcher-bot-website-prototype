@@ -37,6 +37,13 @@ router.get('/:guildId', async (req, res, next) => {
     // get channels from database
     guild.channels = await this.database.collection('channels').find({ guildId: guildId.toString() }).toArray();
 
+    // get message-counts for channels
+    guild.channels.map(async (channel) => {
+        let messageCount = await this.database.collection('messages').find({ channelId: channel.channelId }).count();
+        channel.messageCount = messageCount;
+        return channel;
+    });
+
     // get users from database
     for (let i = 0; i < guild.members.length; i++) {
         let user = await this.database.collection('users').find({ userId: guild.members[i] }).toArray();
