@@ -65,7 +65,8 @@ class App extends React.Component {
     const guildResponse = await fetch(this.state.apiUrl + "/guilds/" + guildId);
     // convert response from json
     var guild = await guildResponse.json();
-    guild = guild.result[0];
+    guild = guild.result;
+    console.log(guild);
 
     // if the backgroundimage doesn't exist, set it to an empty string
     console.log("aaaaaa");
@@ -76,45 +77,23 @@ class App extends React.Component {
     }
     //#endregion
 
-    //#region Channel-Request
-    // get the channels sorted by most messages to least
-    const channelResponse = await fetch(this.state.apiUrl + "/channels/" + guildId);
-    // retrieve the data from the json
-    const channelPayload = await channelResponse.json();
-    // add the data to the guild-object, if there are any channels to show
-    if(channelPayload.result !== undefined && channelPayload.result !== null) {
-      guild.channels = channelPayload.result
-    }
-    else {
-      guild.channels = [{
-        name: "There are no channels to show",
-        messageCount: "",
-      }];
-    }
-    //#endregion
-
-    //#region User-Request
-    // using a for-loop instead of a forEach function, due to Promises not being resolved otherwise
-    for(let i = 0; i < guild.members.length; i++) {
-      let userResponse = await fetch(this.state.apiUrl + "/users/" + guild.members[i]);
-      let userPayload = await userResponse.json();
-      guild.members[i] = userPayload.result[0]; // add the requested user to the list, where once just it's Id was
-
-      // some beauty adjustments
-      if(guild.members[i].presence.status === 'online') {
-        guild.members[i].presence.status = 'Online';
+    //#region Beautify
+    // Making the text more human-readable
+    guild.members.map(member => {
+      if(member.presence.status === 'online') {
+        member.presence.status = 'Online';
       }
-      else if(guild.members[i].presence.status === 'offline') {
-        guild.members[i].presence.status = 'Offline';
+      else if(member.presence.status === 'dnd') {
+        member.presence.status = "Do Not Disturb"
       }
-      else if(guild.members[i].presence.status === 'dnd') {
-        guild.members[i].presence.status = "Don't disturb";
+      else if(member.presence.status === 'offline') {
+        member.presence.status = 'Offline'
       }
-      else if(guild.members[i].presence.status === 'idle') {
-        guild.members[i].presence.status = 'AFK';
+      else if(member.presence.status === 'idle') {
+        member.presence.status = 'Idle';
       }
-    }
-
+      return member;
+    });
     //#endregion
 
 
