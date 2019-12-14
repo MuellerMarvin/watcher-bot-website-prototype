@@ -11,6 +11,9 @@ router.setDatabase = (db) => {
 
 // returns the amount of messages within a certain timespan, or all-time
 router.get('/', async (req, res, next) => {
+    // allow same origin
+    res.append('Access-Control-Allow-Origin', ['*']);
+
     // get API-query-parameters
     let channelId = req.query.channel;
     let guildId = req.query.guild;

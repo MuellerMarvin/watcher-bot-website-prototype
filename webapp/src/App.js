@@ -69,12 +69,21 @@ class App extends React.Component {
     console.log(guild);
 
     // if the backgroundimage doesn't exist, set it to an empty string
-    console.log("aaaaaa");
     if(guild.webappConfig === undefined || guild.webappConfig === null || guild.webappConfig.backgroundImageUrl === undefined || guild.webappConfig.backgroundImageUrl == null) {
       guild.webappConfig = {
         backgroundImageUrl: "",
       };
     }
+    //#endregion
+
+    //#region Last-week-request
+    for(let i = 0; i < guild.channels.length; i++) {
+      let lastWeekResponse = await fetch(this.state.apiUrl + "/channels/?start=" + ((Date.now()) - 604800000) + "&channel=" + guild.channels[i].channelId + "&guild=" + guild.guildId);
+      let messageCount = await lastWeekResponse.json();
+      messageCount = messageCount.result;
+      guild.channels[i].messageCount = messageCount;
+    }
+
     //#endregion
 
     //#region Beautify
@@ -141,11 +150,23 @@ class App extends React.Component {
 
 class GuildDashboard extends React.Component {
   render() {
-    let channelList = this.props.guild.channels.map((channel) => {
-      return(<InfoListItem key={channel._id} LeftText={ "#" + channel.name } RightText={ channel.messageCount + " messages" }/>);
+    // Add channels with messages in the last 7 days to the list for displaying
+    let channelList = [];
+    this.props.guild.channels.forEach(channel => {
+      if(channel.messageCount > 0) {
+        channelList.push(<InfoListItem key={channel._id} LeftText={ "#" + channel.name } RightText={ channel.messageCount + " messages" }/>);
+      }
     });
+    // if there is no channels in the list, display a message instead
+    if(channelList.length == 0) {
+      channelList = [<InfoListItem key={ 0 } LeftText="No messages"/>]
+    }
+
+
     let userList = this.props.guild.members.map((member) => {
-      return(<InfoListItem key={member._id} LeftText={ member.username } RightText={ member.presence.status }/>);
+      if(member.presence.status.toLowerCase() == 'online') {
+        return(<InfoListItem key={member._id} LeftText={ member.username } RightText={ member.presence.status }/>);
+      }
     });
     //let groupList = [];
     //let emoteList = [];
@@ -154,11 +175,11 @@ class GuildDashboard extends React.Component {
       <div className="GuildDashboard" style={{ backgroundColor: "rgba(255, 255, 255, 0.97)" }}>
         <GuildHeader guild={ this.props.guild }/>
         <div className="GuildDashboardDividerLine"/>
-        <InfoList Title="Most used channels" Icon={ channelIcon }>{ channelList }</InfoList>
+        <InfoList Title="Most used channels (last 7 days)" Icon={ channelIcon }>{ channelList }</InfoList>
         <div className="GuildDashboardDividerLine"/>
         {/* <InfoList Title="Groups" Icon={ groupIcon }>{ groupList }</InfoList>
         <div className="GuildDashboardDividerLine"/> */ } 
-        <InfoList Title="Users" Icon={ userIcon }>{ userList }</InfoList>
+        <InfoList Title={ userList.length + " users online" } Icon={ userIcon }>{ userList }</InfoList>
         {/* <div className="GuildDashboardDividerLine"/>
         <InfoList Title="Emotes" Icon={ emoteIcon }>{ emoteList }</InfoList> */}
         <div className="GuildDashboardDividerLine"/>
