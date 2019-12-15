@@ -4,6 +4,7 @@ import './css/GuildHeader.css';
 import './css/InfoList.css';
 import './css/GreenButton.css';
 import './css/LandingPage.css';
+import './css/GuildDashboard.css';
 import config from './config.json';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -14,6 +15,8 @@ import channelIcon from './assets/forum-24px.svg';
 import userIcon from './assets/person-24px.svg';
 //import groupIcon from './assets/people-24px.svg';
 //import emoteIcon from './assets/favorite-24px.svg';
+import unfoldMoreIcon from './assets/unfold_more-24px.svg';
+import unfoldLessIcon from './assets/unfold_less-24px.svg';
 
 class App extends React.Component {
   constructor(props) {
@@ -69,7 +72,7 @@ class App extends React.Component {
     console.log(guild);
 
     // if the backgroundimage doesn't exist, set it to an empty string
-    if(guild.webappConfig === undefined || guild.webappConfig === null || guild.webappConfig.backgroundImageUrl === undefined || guild.webappConfig.backgroundImageUrl == null) {
+    if(guild.webappConfig === undefined || guild.webappConfig === null || guild.webappConfig.backgroundImageUrl === undefined || guild.webappConfig.backgroundImageUrl === null) {
       guild.webappConfig = {
         backgroundImageUrl: "",
       };
@@ -158,16 +161,17 @@ class GuildDashboard extends React.Component {
       }
     });
     // if there is no channels in the list, display a message instead
-    if(channelList.length == 0) {
+    if(channelList.length === 0) {
       channelList = [<InfoListItem key={ 0 } LeftText="No messages"/>]
     }
 
-
-    let userList = this.props.guild.members.map((member) => {
-      if(member.presence.status.toLowerCase() == 'online') {
-        return(<InfoListItem key={member._id} LeftText={ member.username } RightText={ member.presence.status }/>);
+    let newList = [];
+    let userList = this.props.guild.members.forEach((member) => {
+      if(member.presence.status.toLowerCase() === 'online') {
+        newList.push(<InfoListItem key={ member._id } LeftText={ member.username } RightText={ member.presence.status }/>);
       }
     });
+    userList = newList;
     //let groupList = [];
     //let emoteList = [];
 
@@ -183,7 +187,7 @@ class GuildDashboard extends React.Component {
         {/* <div className="GuildDashboardDividerLine"/>
         <InfoList Title="Emotes" Icon={ emoteIcon }>{ emoteList }</InfoList> */}
         <div className="GuildDashboardDividerLine"/>
-        <GreenButton onClick={ function() {return;} } style={{ padding: "50px" }}>I want this too!</GreenButton>
+        <GreenButton onClick={ function() { return; } } style={{ padding: "50px" }}>I want this too!</GreenButton>
       </div>
     );
   }
@@ -217,16 +221,40 @@ function UserCountBubble(props) {
   );
 }
 
-function InfoList(props) {
-  return(
-    <div className="InfoList">
-      <img src={ props.Icon } alt=""/>
-      <p className="InfoListTitle">{ props.Title }</p>
-      <div>
-        { props.children }
+class InfoList extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      collapsed: props.Collapsed || true,
+    }
+  }
+
+  render() {
+    // what to show, if it's not collapsed
+    let renderList = this.props.children;
+    let collapseIcon = unfoldMoreIcon;
+
+    // what to show instead when it's collapsed
+    if(this.state.collapsed) {
+      renderList = renderList.slice(0,3);
+      collapseIcon = unfoldLessIcon;
+    }
+
+    return(
+      <div className="InfoList">
+        <img src={ this.props.Icon } alt=""/>
+        <p className="InfoListTitle">{ this.props.Title }</p>
+        <img className="CollapseButton" src={ collapseIcon } alt="" onClick={ () => {
+          // set collapsed to the opposite
+          this.setState({ collapsed: !this.state.collapsed });
+        }}/>
+        <div>
+          { renderList }
+        </div>
       </div>
-    </div>
-  );
+    ); 
+  }
 }
 
 function InfoListItem(props) {

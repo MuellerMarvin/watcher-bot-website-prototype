@@ -7,15 +7,24 @@
 .InfoList > img {
     float: left;
     display: inline-block;
-    padding-left: 20px;
+}
+
+.InfoList {
 }
 
 .InfoListTitle {
-    display: block;
-    height: 24px;
+    display: inline-block;
+    width: calc(100% - 48px);
+    margin:0;
+    float: left;
     text-align: left;
     text-indent: 10px;
     overflow: hidden;
+}
+
+.InfoList > div {
+    display: block;
+    width: 100%;
 }
 
 .InfoListItemContainer {
@@ -41,4 +50,8 @@
     padding-right: 20px;
     width: calc(50% - 20px);
     overflow: hidden;
+}
+
+.CollapseButton {
+    float: right;
 }
