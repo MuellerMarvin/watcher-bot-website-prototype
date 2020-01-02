@@ -187,7 +187,7 @@ class GuildDashboard extends React.Component {
         {/* <div className="GuildDashboardDividerLine"/>
         <InfoList Title="Emotes" Icon={ emoteIcon }>{ emoteList }</InfoList> */}
         <div className="GuildDashboardDividerLine"/>
-        <GreenButton onClick={ function() { return; } } style={{ padding: "50px" }}>I want this too!</GreenButton>
+        <GreenButton href="/" style={{ padding: "50px" }}>I want this too!</GreenButton>
       </div>
     );
   }
@@ -268,11 +268,13 @@ function InfoListItem(props) {
 
 function GreenButton(props) {
   return(
-    <div className="GreenButton">
-      <button onClick={ props.onClick }>
-        { props.children }
-      </button>
-    </div>
+    <a href={ props.href }>
+      <div className="GreenButton">
+        <button onClick={ props.onClick }>
+          { props.children }
+        </button>
+      </div>
+    </a>
   );
 }
 
@@ -283,7 +285,7 @@ function LandingPage(props) {
       <div className="LandingPageContentContainer">
         <img className="LandingPageBigLogo" alt="logo" src={ logo }/>
         <p className="LandingPageTitle">Feel the heartbeat of your server</p>
-        <GreenButton onClick={() => { window.location = config.botUrl /* discord bot invite url */ }}>
+        <GreenButton href={ config.inviteUrl }>
           Add to Discord
         </GreenButton>
       </div>
